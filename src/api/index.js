@@ -5,10 +5,10 @@ import TunePlugin from '../plugins/TunePlugin';
 
 export default class Transcore {
 
-  static tune(source, { offset = 0 }) {
+  static tune(source, options = {}) {
     const tokens = lex(source);
     return parse(tokens, new Visitor(), [
-      new TunePlugin({ offset })
+      new TunePlugin(options)
     ]);
   }
 }

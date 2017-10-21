@@ -1,7 +1,10 @@
 import Token from '../model/Token';
 
 export default class TunePlugin {
-  constructor({ offset = 0 }) {
+  constructor(options) {
+    const { offset } = Object.assign({
+      offset: 0,
+    }, options);
     this.offset = offset;
   }
 
