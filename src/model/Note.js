@@ -36,9 +36,15 @@ export default class Note {
 
   up(number = 1) {
     this.number += number;
+    return this;
   }
 
   down(number = 1) {
     this.number -= number;
+    return this;
+  }
+
+  copy() {
+    return new Note(this.number);
   }
 }

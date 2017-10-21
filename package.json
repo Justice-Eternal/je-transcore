@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rm -rf lib && babel src --out-dir lib --copy-files",
     "prepublish": "npm run lint && npm run best",
-    "best": "npm run build && npm run _test",
+    "best": "npm run build && npm test",
     "test": "node_modules/mocha/bin/mocha test/*.test.js",
     "lint": "node_modules/eslint/bin/eslint.js src"
   },

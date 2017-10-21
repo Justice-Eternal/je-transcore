@@ -1,21 +1,9 @@
 import Lexer from 'lex';
 import Token from '../model/Token';
 import Note from '../model/Note';
+import { octaveTable, nameTable } from '../constants';
 
-const { TEXT, NOTE } = Token;
-
-const octaveTable = {
-  '(': -1,
-  ')': 1,
-  '[': 1,
-  ']': -1,
-  '<': -2,
-  '>': 2,
-  '{': 2,
-  '}': -2,
-};
-
-const nameTable = ['1', '#1', '2', '#2', '3', '4', '#4', '5', '#5', '6', '#6', '7'];
+const { TEXT, NOTE, WS } = Token;
 
 export default function lex(source) {
   let octave = 5;
@@ -36,7 +24,10 @@ export default function lex(source) {
   lexer.addRule(/[()[\]{}<>]/, key => {
     octave += octaveTable[key];
   });
-  lexer.addRule(/(.|\s|\n)/, text => {
+  lexer.addRule(/(\s|\n)/, text => {
+    tokens.push(new Token(WS, text));
+  });
+  lexer.addRule(/(.)/, text => {
     tokens.push(new Token(TEXT, text));
   });
   lexer.setInput(source).lex();
