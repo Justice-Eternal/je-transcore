@@ -1,6 +1,6 @@
-# JE Transcore
+# JE Transcore [![npm version](https://badge.fury.io/js/je-transcore.svg)](https://badge.fury.io/js/je-transcore)
 
----
+Tool for JE score transferring.
 
 ## Usage
 

@@ -1,7 +1,7 @@
 {
   "name": "je-transcore",
-  "version": "0.0.1",
-  "description": "tool for je score transfering",
+  "version": "0.1.0",
+  "description": "tool for je score transferring",
   "main": "lib/index.js",
   "scripts": {
     "build": "rm -rf lib && babel src --out-dir lib --copy-files",
