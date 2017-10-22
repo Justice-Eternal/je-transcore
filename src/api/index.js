@@ -1,5 +1,5 @@
 import lex from '../lexer';
-import parse from '../parser';
+import parse from '../renderer';
 import { withOptions } from '../model/Note';
 import Visitor from '../visitor';
 import TunePlugin from '../plugins/TunePlugin';

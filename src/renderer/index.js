@@ -1,4 +1,4 @@
-export default function parse(tokens, visitor, plugins = []) {
+export default function render(tokens, visitor, plugins = []) {
   if (typeof plugins === 'function') {
     plugins = [plugins];
   }
