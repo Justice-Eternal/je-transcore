@@ -2,6 +2,10 @@ const nameTable = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', '
 
 export default class Note {
 
+  static options = {
+    preferSharpB: false,
+  };
+
   /**
    * MIDI Note Number
    * @type {number}
@@ -19,7 +23,11 @@ export default class Note {
   }
 
   get octave() {
-    return Math.floor(this.number / 12);
+    let result = Math.floor(this.number / 12);
+    if (this.rest === 0 && Note.options.preferSharpB) {
+      result--;
+    }
+    return result;
   }
 
   set octave(val) {
@@ -46,5 +54,16 @@ export default class Note {
 
   copy() {
     return new Note(this.number);
+  }
+}
+
+export function withOptions(options) {
+  const oldOptions = Object.assign({}, Note.options);
+  return function wrapper(func) {
+    return function (...args) {
+      Note.options = options;
+      func.apply(null, args);
+      Note.options = oldOptions;
+    }
   }
 }

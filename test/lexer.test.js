@@ -1,4 +1,4 @@
-/* global: describe, it, expect: true */
+/* global: describe, it: true */
 const lex = require('../lib/lexer/default');
 const expect = require('expect');
 

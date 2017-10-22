@@ -7,6 +7,11 @@ const initialOctave = 5;
 const copy = i => i;
 
 export default class Visitor {
+
+  constructor(options = {}) {
+    this.nameTable = options.nameTable || nameTable;
+  }
+
   before(state) {
     state.octave = initialOctave;
     state.result = [];
@@ -58,7 +63,7 @@ export default class Visitor {
       }
     }
     this.flushText(state);
-    state.result.push(nameTable[note.rest]);
+    state.result.push(this.nameTable[note.rest]);
   }
 
   after(state) {
