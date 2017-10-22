@@ -64,18 +64,23 @@ console.log(result);
 Source score
 
 ##### options:
-###### offset: Number
-Change tune by offset
 
-###### preferSharpE: Boolean
-Output `#3` instead of `4`
+```js
+{
+  offset: Number, Change tune by offset
+  preferSharpE: Boolean, Output `#3` instead of `4`
+  preferSharpB: Boolean, Output `#7` instead of `[1]`
+}
+```
 
-###### preferSharpB: Boolean
-Output `#7` instead of `[1]`
-
+##### Example
 ```js
 const input = '(7)1#12#2345#56#67[1]';
 const result = Transcore.tune(input, { preferSharpB: true, preferSharpE: true });
 console.log(result);
 // '(7#7)#12#23#35#56#67#7'
 ```
+
+## License
+
+MIT
