@@ -4,7 +4,14 @@ import Token from '../model/Token';
 const { TEXT, NOTE, WS } = Token;
 
 const isSharp = i => i[0] === '(';
-const getNumber = i => parseInt(i.replace(/[bd()]/ig, ''));
+const getNumber = i => {
+  const t = i.replace(/[bd()]/ig, '');
+  let result = parseInt(t);
+  if (t.slice(-1) === '\'') {
+    result -= 4;
+  }
+  return result;
+};
 
 export default class Visitor {
 

@@ -106,6 +106,14 @@ describe('bd', () => {
     expect(result).toEqual('B5D6');
   });
 
+  it('should render \' correctly', () => {
+    const input = `((#57))`;
+    const tokens = lex(input);
+    const visitor = new BDVisitor();
+    const result = render(tokens, visitor);
+    expect(result).toEqual('(B3\')D4\'');
+  });
+
   it('should render preferSharp correctly', () => {
     const input = `14`;
     const tokens = lex(input);
