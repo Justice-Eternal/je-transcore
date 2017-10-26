@@ -7,10 +7,10 @@ export default function render(tokens, visitor, plugins = []) {
     pluggedTokens = plugins[i].decorate(pluggedTokens);
   }
   const state = {};
-  visitor.before(state);
+  visitor.before && visitor.before(state);
   for (const i in pluggedTokens) {
-    visitor.visit(pluggedTokens[i], state);
+    visitor.visit && visitor.visit(pluggedTokens[i], state);
   }
-  visitor.after(state);
+  visitor.after && visitor.after(state);
   return visitor.parse(state);
 }

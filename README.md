@@ -110,9 +110,59 @@ console.log(result);
 
 ### API
 
-#### Transcore.tune(source, options)
+#### Transcore.tune(source, options): String
 ##### source:
 Source score
+
+##### options:
+
+```js
+{
+  mode: {'JE'(default), 'BD'}
+
+  // mode JE
+  offset: Number, Change tune by offset
+  preferSharpE: Boolean, Output `#3` instead of `4`
+  preferSharpB: Boolean, Output `#7` instead of `[1]`
+
+  // mode BD
+  preferSharp: Boolean, Output `(D4)(B6)` instead of `B5D6`
+  preferLeft: Boolean, Output `B4` instead of `B5` // It will be `(D4)` when both of them are true
+}
+```
+
+##### Example
+```js
+const input = '(7)1#12#2345#56#67[1]';
+const result = Transcore.tune(input, { preferSharpB: true, preferSharpE: true });
+console.log(result);
+// (7#7)#12#23#35#56#67#7
+```
+
+#### Transcore.toBD(source, options): String
+##### source:
+Source score, JE format
+
+##### options:
+
+```js
+{
+  preferSharp: Boolean, Output `(D4)(B6)` instead of `B5D6`
+  preferLeft: Boolean, Output `B4` instead of `B5` // It will be `(D4)` when both of them are true
+}
+```
+
+##### Example
+```js
+const input = '(7)1#12#2345#56#67[1]';
+const result = Transcore.toBD(input, { preferSharp: true });
+console.log(result);
+// D4(D4)(B5)D5(D5)B6(B6)B7(B7)D7(D7)D8(D8)
+```
+
+#### Transcore.toJE(source, options): String
+##### source:
+Source score, BD format
 
 ##### options:
 
@@ -126,10 +176,9 @@ Source score
 
 ##### Example
 ```js
-const input = '(7)1#12#2345#56#67[1]';
-const result = Transcore.tune(input, { preferSharpB: true, preferSharpE: true });
-console.log(result);
-// '(7#7)#12#23#35#56#67#7'
+const input = 'D4B5(B5)D5(D5)B6D6B7(B7)D7(D7)D8B9';
+const result = Transcore.toJE(input);
+// (7)1#12#2345#56#67[1]
 ```
 
 ## License

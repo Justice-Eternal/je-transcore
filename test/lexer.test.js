@@ -1,8 +1,11 @@
 /* global: describe, it: true */
 const lex = require('../lib/lexer/default');
+const bd = require('../lib/lexer/bd');
 const expect = require('expect');
 
 describe('lexer', () => {
+
+describe('default', () => {
   it('should return a correct token', () => {
     const tokens = lex('#3');
     expect(tokens.length).toEqual(1);
@@ -58,4 +61,33 @@ describe('lexer', () => {
     expect(token.type).toEqual('note');
     expect(token.data.number).toEqual(65);
   });
+
+});
+
+describe('bd', () => {
+  it('should return a correct token', () => {
+    const tokens = bd('(B6)');
+    expect(tokens.length).toEqual(1);
+    const token = tokens[0];
+    expect(token.type).toEqual('note');
+    expect(token.data.number).toEqual(65);
+  });
+
+  it('should return 3 correct tokens', () => {
+    const tokens = bd('(B6) D6');
+    expect(tokens.length).toEqual(3);
+    let token = tokens[0];
+    expect(token.type).toEqual('note');
+    expect(token.data.number).toEqual(65);
+
+    token = tokens[1];
+    expect(token.type).toEqual('ws');
+    expect(token.data).toEqual(' ');
+
+    token = tokens[2];
+    expect(token.type).toEqual('note');
+    expect(token.data.number).toEqual(65);
+  });
+});
+
 });
