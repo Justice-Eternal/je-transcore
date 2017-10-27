@@ -4,7 +4,7 @@
   "description": "tool for je score transferring",
   "main": "lib/index.js",
   "scripts": {
-    "build": "rm -rf lib && babel src --out-dir lib --copy-files",
+    "build": "rm -rf lib && node_modules/babel-cli/bin/babel.js src --out-dir lib --copy-files",
     "prepublish": "npm run lint && npm run best",
     "best": "npm run build && npm test",
     "test": "node_modules/mocha/bin/mocha test/*.test.js",
