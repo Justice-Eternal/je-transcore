@@ -2,56 +2,8 @@
 
 Tool for JE score transferring.
 
-
 ## What is JE score?
-
-JE score is a form of expression of the music score, which is widely used in [Justice Eternal](https://tieba.baidu.com/f?ie=utf-8&kw=justice_eternal).
-
-Usually, it only gives pitches in a music but doesn't contain the duration.
-
-|Advantages|Disadvantages|
-|---|---|
-|Get started easily|Representability for Harmony|
-|Readability for human|Not normalized|
-|Edit and share in pure text|Hard to edit programmatically|
-
-The mapping relation between JE score and note names:
-
-|C |C# |D |D# |E |F |F# |G |G# |A |A# |B |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-|1 |#1 |2 |#2 |3 |4 |#4 |5 |#5 |6 |#6 |7 |
-
-An octave higher with `[]`
-
-|C |C# |D |D# |E |F |F# |G |G# |A |A# |B |
-|-----|---|---|---|---|---|---|---|---|---|---|---|
-|[1] |[#1] |[2] |[#2] |[3] |[4] |[#4] |[5] |[#5] |[6] |[#6] |[7] |
-
-An octave lower with `()`
-
-|C |C# |D |D# |E |F |F# |G |G# |A |A# |B |
-|-----|---|---|---|---|---|---|---|---|---|---|---|
-|(1) |(#1) |(2) |(#2) |(3) |(4) |(#4) |(5) |(#5) |(6) |(#6) |(7) |
-
-
-Because the JE score is used mostly by people who play the harmonica, for convenience, we have `#3 == 4` and `#7 == [1]`.
-
-
-![staff](./docs/images/staff.png)
-
-All of the following JE scores are valid
-
-```
-234567[1][2]  // or
-23#3567[1][2]  // or
-234567#7[2]  // or
-23#3567#7[2] // or
-
-// several notes can be nested in one pair of parentheses/brackets
-234567[12]
-```
-
-Spaces and newlines may be added for readability or providing hints for the rhythm.
+[Introduction for JE score and BD score](./docs/introduction.md)
 
 ## Usage
 
@@ -110,9 +62,59 @@ console.log(result);
 
 ### API
 
-#### Transcore.tune(source, options)
+#### Transcore.tune(source, options): String
 ##### source:
 Source score
+
+##### options:
+
+```js
+{
+  mode: {'JE'(default), 'BD'}
+
+  // mode JE
+  offset: Number, Change tune by offset
+  preferSharpE: Boolean, Output `#3` instead of `4`
+  preferSharpB: Boolean, Output `#7` instead of `[1]`
+
+  // mode BD
+  preferSharp: Boolean, Output `(D4)(B6)` instead of `B5D6`
+  preferLeft: Boolean, Output `B4` instead of `B5` // It will be `(D4)` when both of them are true
+}
+```
+
+##### Example
+```js
+const input = '(7)1#12#2345#56#67[1]';
+const result = Transcore.tune(input, { preferSharpB: true, preferSharpE: true });
+console.log(result);
+// (7#7)#12#23#35#56#67#7
+```
+
+#### Transcore.toBD(source, options): String
+##### source:
+Source score, JE format
+
+##### options:
+
+```js
+{
+  preferSharp: Boolean, Output `(D4)(B6)` instead of `B5D6`
+  preferLeft: Boolean, Output `B4` instead of `B5` // It will be `(D4)` when both of them are true
+}
+```
+
+##### Example
+```js
+const input = '(7)1#12#2345#56#67[1]';
+const result = Transcore.toBD(input, { preferSharp: true });
+console.log(result);
+// D4(D4)(B5)D5(D5)B6(B6)B7(B7)D7(D7)D8(D8)
+```
+
+#### Transcore.toJE(source, options): String
+##### source:
+Source score, BD format
 
 ##### options:
 
@@ -126,10 +128,9 @@ Source score
 
 ##### Example
 ```js
-const input = '(7)1#12#2345#56#67[1]';
-const result = Transcore.tune(input, { preferSharpB: true, preferSharpE: true });
-console.log(result);
-// '(7#7)#12#23#35#56#67#7'
+const input = 'D4B5(B5)D5(D5)B6D6B7(B7)D7(D7)D8B9';
+const result = Transcore.toJE(input);
+// (7)1#12#2345#56#67[1]
 ```
 
 ## License

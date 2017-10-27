@@ -2,9 +2,12 @@
 const lex = require('../lib/lexer/default');
 const render = require('../lib/renderer');
 const Visitor = require('../lib/visitor/default');
+const BDVisitor = require('../lib/visitor/bd');
 const expect = require('expect');
 
 describe('parser', () => {
+
+describe('default', () => {
   it('should render normal correctly', () => {
     const input = `1#12#2`;
     const tokens = lex(input);
@@ -84,4 +87,56 @@ describe('parser', () => {
     const result = render(tokens, visitor);
     expect(result).toEqual('67#12[#2] // 这里是注释 \n (6)7#12[#2]');
   });
+});
+
+describe('bd', () => {
+  it('should render normal correctly', () => {
+    const input = `1#12#2`;
+    const tokens = lex(input);
+    const visitor = new BDVisitor();
+    const result = render(tokens, visitor);
+    expect(result).toEqual('B5(B5)D5(D5)');
+  });
+
+  it('should render default correctly', () => {
+    const input = `14`;
+    const tokens = lex(input);
+    const visitor = new BDVisitor();
+    const result = render(tokens, visitor);
+    expect(result).toEqual('B5D6');
+  });
+
+  it('should render \' correctly', () => {
+    const input = `((#57))`;
+    const tokens = lex(input);
+    const visitor = new BDVisitor();
+    const result = render(tokens, visitor);
+    expect(result).toEqual('(B3\')D4\'');
+  });
+
+  it('should render preferSharp correctly', () => {
+    const input = `14`;
+    const tokens = lex(input);
+    const visitor = new BDVisitor({ preferSharp: true });
+    const result = render(tokens, visitor);
+    expect(result).toEqual('(D4)(B6)');
+  });
+
+  it('should render preferLeft correctly', () => {
+    const input = `14`;
+    const tokens = lex(input);
+    const visitor = new BDVisitor({ preferLeft: true });
+    const result = render(tokens, visitor);
+    expect(result).toEqual('B4D6');
+  });
+
+  it('should render preferSharp & preferLeft correctly', () => {
+    const input = `14`;
+    const tokens = lex(input);
+    const visitor = new BDVisitor({ preferSharp: true, preferLeft: true });
+    const result = render(tokens, visitor);
+    expect(result).toEqual('(D4)(B6)');
+  });
+});
+
 });
