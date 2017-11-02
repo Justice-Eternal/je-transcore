@@ -120,7 +120,6 @@ Source score, BD format
 
 ```js
 {
-  offset: Number, Change tune by offset
   preferSharpE: Boolean, Output `#3` instead of `4`
   preferSharpB: Boolean, Output `#7` instead of `[1]`
 }
